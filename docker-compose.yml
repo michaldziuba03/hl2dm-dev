@@ -1,15 +1,31 @@
 version: '3.8'
 
 services:
-  hl2mp-server:
+  hl2mp:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: hl2mp-server
+    container_name: hl2mp
     ports:
       - "27015:27015/udp"
       - "27015:27015"
+    environment:
+      - MAX_PLAYERS=8
     volumes:
       - ./cfg/server.cfg:/home/steam/server/hl2mp/cfg/server.cfg
-    stdin_open: true
-    tty: true
+      - hl2mp_data:/home/steam/server/hl2mp
+    restart: unless-stopped
+
+  portainer:
+      image: portainer/portainer-ce
+      container_name: portainer
+      restart: unless-stopped
+      ports:
+        - "9000:9000"
+      volumes:
+        - /var/run/docker.sock:/var/run/docker.sock
+        - portainer_data:/data
+
+volumes:
+  hl2mp_data:
+  portainer_data:
