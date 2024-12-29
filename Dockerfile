@@ -11,4 +11,6 @@ RUN curl -L "https://sm.alliedmods.net/smdrop/1.12/sourcemod-1.12.0-git7172-linu
     tar -xzf sourcemod.tar.gz -C /home/steam/server/hl2mp && \
     rm sourcemod.tar.gz
 
-CMD ["/home/steam/server/srcds_run", "-game", "hl2mp", "-port", "27015", "+map", "dm_lockdown"]
+ENV MAX_PLAYERS=16
+
+CMD /home/steam/server/srcds_run -game hl2mp -port 27015 +maxplayers $MAX_PLAYERS +map dm_lockdown
