@@ -1,0 +1,15 @@
+version: '3.8'
+
+services:
+  hl2mp-server:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: hl2mp-server
+    ports:
+      - "27015:27015/udp"
+      - "27015:27015"
+    volumes:
+      - ./cfg/server.cfg:/home/steam/server/hl2mp/cfg/server.cfg
+    stdin_open: true
+    tty: true
