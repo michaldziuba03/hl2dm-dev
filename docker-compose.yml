@@ -10,11 +10,23 @@ services:
       - "27015:27015/udp"
       - "27015:27015"
     environment:
-      - MAX_PLAYERS=8
+      - SRV_MAXPLAYERS=8
     volumes:
       - ./cfg/server.cfg:/home/steam/server/hl2mp/cfg/server.cfg
       - hl2mp_data:/home/steam/server/hl2mp
     restart: unless-stopped
+
+  fastdl:
+    image: nginx:latest
+    container_name: fastdl
+    ports:
+      - "8001:80"
+    volumes:
+      - hl2mp_data:/mnt/hl2mp
+      - ./fastdl/nginx.conf:/etc/nginx/conf.d/default.conf
+    restart: unless-stopped
+    depends_on:
+      - hl2mp
 
   filebrowser:
     image: filebrowser/filebrowser
